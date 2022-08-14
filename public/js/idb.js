@@ -8,7 +8,7 @@ const indexedDB =
 let db;
 
 const database = "budget";
-const objectStore = "transactions";
+const objectStore = "transaction";
 const request = indexedDB.open(database, 1);
 
 request.onupgradeneeded = ({ target }) => {
@@ -29,19 +29,19 @@ request.onerror = function (event) {
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction(["transactions"], "readwrite");
-  const store = transaction.objectStore("transactions");
+  const transaction = db.transaction(["transaction"], "readwrite");
+  const store = transaction.objectStore("transaction");
   store.add(record);
 }
 
 function checkDatabase() {
-  const transaction = db.transaction(["transactions"], "readwrite");
-  const store = transaction.objectStore("transactions");
+  const transaction = db.transaction(["transaction"], "readwrite");
+  const store = transaction.objectStore("transaction");
   const getAll = store.getAll();
 
   getAll.onsuccess = function () {
     if (getAll.result.length > 0) {
-      fetch("/api/transactions/", {
+      fetch("/api/transaction/", {
         method: "POST",
         body: JSON.stringify(getAll.result),
         headers: {
